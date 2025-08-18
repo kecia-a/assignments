@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grade Checker</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #CFE9F3; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 15px;
+    color: #2980B9; 
+  }
+  .label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+  }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+    color: white;
+  }
+  .submit-btn {
+    background-color: #2980B9; 
+  }
+  .submit-btn:hover {
+    background-color: #1F4F7A;
+  }
+  .back-btn {
+    background-color: #1ABC9C; 
+    margin-top: 10px;
+  }
+  .back-btn:hover {
+    background-color: #169B81;
+  }
+  #error {
+    color: red;
+    font-size: 14px;
+  }
+  #gradeResult {
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #1B4F72;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Grade Checker</h1>
+    <div id="error"></div>
+    <label for="scoreInput" class="label">Enter the Score:</label>
+    <input type="number" id="scoreInput" placeholder="e.g. 85" />
+
+    <button class="submit-btn" onclick="checkGrade()">Submit</button>
+    <p id="gradeResult"></p>
+    <button class="back-btn" onclick="location.href='main.html'">Back</button>
+
+  </div>
+
+<script>
+  function checkGrade() {
+    const scoreInput = document.getElementById("scoreInput");
+    const errorDiv = document.getElementById("error");
+    const gradeResult = document.getElementById("gradeResult");
+
+    errorDiv.textContent = "";
+    gradeResult.textContent = "";
+
+    const score = parseFloat(scoreInput.value);
+    if(scoreInput.value.trim() === "" || isNaN(score) || score < 0 || score > 100) {
+      errorDiv.textContent = "Please enter a score between 0 and 100.";
+      return;
+    }
+
+    if(score >= 90) gradeResult.textContent = 'You got "A" grade.';
+    else if(score >= 80) gradeResult.textContent = 'You got "B" grade.';
+    else if(score >= 70) gradeResult.textContent = 'You got "C" grade.';
+    else gradeResult.textContent = 'You got "D" grade.';
+  }
+</script>
+</body>
+</html>
