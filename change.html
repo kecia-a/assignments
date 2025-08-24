@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Calculate Change</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #C3E8E1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 20px;
+    color: #117A65; 
+  }
+  label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+    color: white;
+  }
+  .submit-btn {
+    background-color: #16A085;
+  }
+  .submit-btn:hover {
+    background-color: #12806B;
+  }
+  .back-btn {
+    background-color: #34495E; 
+    margin-top: 10px;
+  }
+  .back-btn:hover {
+    background-color: #2C3E50;
+  }
+  #error {
+    color: red;
+    font-size: 14px;
+  }
+  #result {
+    margin-top: 15px;
+    text-align: left;
+    font-size: 16px;
+    color: #145A4B;
+    background: #e6f0ef;
+    padding: 10px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculate Change</h1>
+    <div id="error"></div>
+    <label for="amount">Enter Amount:</label>
+    <input type="number" id="amount" placeholder="e.g. 287" />
+
+    <button class="submit-btn" onclick="calculateChange()">Submit</button>
+    <div id="result"></div>
+    <button class="back-btn" onclick="location.href='main.html'">Back</button>
+
+  </div>
+
+<script>
+  function calculateChange() {
+    const amountInput = document.getElementById("amount");
+    const errorDiv = document.getElementById("error");
+    const resultDiv = document.getElementById("result");
+
+    errorDiv.textContent = "";
+    resultDiv.textContent = "";
+
+    let amount = parseInt(amountInput.value);
+    if(amountInput.value.trim() === "" || isNaN(amount) || amount <= 0) {
+      errorDiv.textContent = "Please enter a positive number.";
+      return;
+    }
+
+    const denominations = [1000, 500, 100, 50, 20, 10, 5, 1];
+    let change = {};
+
+    for(let note of denominations) {
+      if(amount >= note) {
+        change[note] = Math.floor(amount / note);
+        amount %= note;
+      }
+    }
+
+    for(let note in change) {
+      resultDiv.innerHTML += `${change[note]} of ฿${note}<br>`;
+    }
+  }
+</script>
+</body>
+</html>

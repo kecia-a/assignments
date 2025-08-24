@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Temperature Converter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #EAF6F6; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 15px;
+    color: #16A085; 
+  }
+  .label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease;
+    color: white;
+  }
+  .convert-btn {
+    background-color: #1ABC9C; /* Teal */
+  }
+  .convert-btn:hover {
+    background-color: #169B81;
+  }
+  .back-btn {
+    background-color: #2980B9; /* Royal Blue */
+    margin-top: 10px;
+  }
+  .back-btn:hover {
+    background-color: #1F6691;
+  }
+  #error {
+    color: red;
+    font-size: 14px;
+  }
+  #result {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #117A65;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Temperature Converter</h1>
+    <div id="error"></div>
+    <label for="tempInput" class="label">Enter Temperature:</label>
+    <input type="number" id="tempInput" placeholder="Enter value" />
+
+    <label for="tempType" class="label">Convert From:</label>
+    <select id="tempType">
+      <option value="celsius">Celsius</option>
+      <option value="fahrenheit">Fahrenheit</option>
+    </select>
+
+    <button class="convert-btn" onclick="convertTemperature()">Convert</button>
+    <p id="result"></p>
+    <button class="back-btn" onclick="location.href='main.html'">Back</button>
+
+  </div>
+
+<script>
+  function convertTemperature() {
+    const tempInput = document.getElementById("tempInput");
+    const tempType = document.getElementById("tempType").value;
+    const errorDiv = document.getElementById("error");
+    const resultDiv = document.getElementById("result");
+
+    errorDiv.textContent = "";
+    resultDiv.textContent = "";
+
+    const temp = parseFloat(tempInput.value);
+    if (tempInput.value.trim() === "" || isNaN(temp)) {
+      errorDiv.textContent = "Please enter a valid number.";
+      return;
+    }
+
+    if (tempType === "celsius") {
+      const f = (temp * 9 / 5) + 32;
+      const k = temp + 273.15;
+      resultDiv.textContent = `${f.toFixed(2)}° Fahrenheit / ${k.toFixed(2)} K`;
+    } else {
+      const c = (temp - 32) * 5 / 9;
+      const k = c + 273.15;
+      resultDiv.textContent = `${c.toFixed(2)}° Celsius / ${k.toFixed(2)} K`;
+    }
+  }
+</script>
+</body>
+</html>
