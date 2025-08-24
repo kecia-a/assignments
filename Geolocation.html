@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Geolocation Distance</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    color: white;
+    width: 350px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  button {
+    background: linear-gradient(90deg, #ff758c, #ff7eb3);
+    border: none;
+    padding: 12px 25px;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 126, 179, 0.4);
+  }
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(255, 126, 179, 0.7);
+  }
+  p {
+    font-size: 18px;
+    margin-top: 25px;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Find Your Distance to Kasem Bundit University</h1>
+  <button onclick="findDistance()">Where am I?</button>
+  <p id="output"></p>
+</div>
+
+<script>
+// Kasem Bundit University coordinates (real)
+const kasemLat = 13.80265;
+const kasemLng = 100.73699;
+
+function findDistance() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        document.getElementById("output").innerHTML = "Geolocation not supported.";
+    }
+}
+
+function showPosition(position) {
+    let lat1 = position.coords.latitude;
+    let lon1 = position.coords.longitude;
+    let distance = getDistanceFromLatLonInKm(lat1, lon1, kasemLat, kasemLng);
+    let output = document.getElementById("output");
+    output.innerHTML = `You're ${distance.toFixed(2)} km away from the Kasem Bundit University`;
+    output.style.animation = "fadeUp 0.8s ease forwards";
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        default:
+            alert("An unknown error occurred.");
+    }
+}
+
+// Haversine formula
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+}
+</script>
+
+</body>
+</html>
